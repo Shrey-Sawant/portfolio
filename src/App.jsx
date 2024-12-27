@@ -1,9 +1,9 @@
-import About from "./components/About";
-import Navbar from "./components/navbar";
-import Hero from "./components/Hero";
-import Technologies from "./components/Technologies";
-import Projects from "./components/Projects";
-import Contact from "./components/Contact";
+import About from "./components/About.jsx";
+import Hero from "./components/Hero.jsx";
+import Technologies from "./components/Technologies.jsx";
+import Projects from "./components/Projects.jsx";
+import Contact from "./components/Contact.jsx";
+import Navbar from "./components/Navbar.jsx";
 
 const App = () => {
   return (
@@ -12,7 +12,7 @@ const App = () => {
         <div className="absolute top-0 z-[-2] h-screen w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
       </div>
       <div className="container mx-auto px-8 lg:px-20 ">
-        <Navbar />
+        <Navbar/>
         <Hero />
         <About />
         <Technologies />
