@@ -9,6 +9,7 @@ import CardAnimation from "./components/CardAnimation.jsx";
 import Work from "./components/Work.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProjectPage from "./components/ProjectPage.jsx";
+import Footer from "./components/Footer.jsx";
 
 const App = () => {
   return (
@@ -23,10 +24,21 @@ const App = () => {
               <CardAnimation />
               <About />
               <Work />
+              <Footer />
             </div>
           }
         />
-        <Route path="/projects/:slug" element={<ProjectPage />} />
+        <Route
+          path="/projects/:slug"
+          element={
+            <>
+              {" "}
+              <Navbar />
+              <ProjectPage />
+              <Footer />
+            </>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
