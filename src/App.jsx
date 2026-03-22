@@ -1,8 +1,4 @@
 import About from "./components/About.jsx";
-import Hero from "./components/Hero.jsx";
-import Technologies from "./components/Technologies.jsx";
-import Projects from "./components/Projects.jsx";
-import Contact from "./components/Contact.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Main from "./components/Main.jsx";
 import CardAnimation from "./components/CardAnimation.jsx";
@@ -10,6 +6,7 @@ import Work from "./components/Work.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProjectPage from "./components/ProjectPage.jsx";
 import Footer from "./components/Footer.jsx";
+import Experience from "./components/Experience.jsx";
 
 const App = () => {
   return (
@@ -23,6 +20,7 @@ const App = () => {
               <Main />
               <CardAnimation />
               <About />
+              <Experience />
               <Work />
               <Footer />
             </div>
