@@ -2,40 +2,22 @@ import { useEffect, useRef } from "react";
 
 const experiences = [
     {
-        period: "2023 — Present",
+        period: "Apr 2025 — Jul 2025",
         current: true,
-        role: "Full Stack Developer",
-        company: "Freelance / Independent",
+        role: "Full Stack Developer Intern",
+        company: "Pentagon Technologies",
         description:
-            "Architecting and shipping end-to-end web products for startups and founders. From product strategy and design systems to full-stack implementation and deployment.",
-        tags: ["React", "Node.js", "Next.js", "PostgreSQL", "Figma"],
+            "Designed and deployed responsive web solutions for B2B clients, including Sudarshan Moulds and Alamiko. Conducted UI/UX research to prototype scalable eCommerce platforms and implemented SEO strategies to boost search visibility and user engagement.",
+        tags: ["WordPress", "Figma", "SEO", "UI/UX Research"],
     },
     {
-        period: "2022 — 2023",
+        period: "Jan 2025 — Mar 2025",
         current: false,
-        role: "UI / UX Designer & Developer",
-        company: "Academix Platform",
+        role: "MERN Stack Developer Intern",
+        company: "TechAsia Mechatronics Pvt Ltd",
         description:
-            "Led product design and frontend development for an EdTech platform. Designed user flows, built the component library, and shipped features used by 2,000+ students.",
-        tags: ["Product Design", "React", "Tailwind CSS", "GSAP"],
-    },
-    {
-        period: "2021 — 2022",
-        current: false,
-        role: "Frontend Developer Intern",
-        company: "TechCo Startup",
-        description:
-            "Built responsive interfaces and interactive components. Collaborated closely with the design team to translate Figma mockups into pixel-perfect, performant code.",
-        tags: ["React", "TypeScript", "REST APIs"],
-    },
-    {
-        period: "2020 — 2021",
-        current: false,
-        role: "Web Design Freelancer",
-        company: "Self-employed",
-        description:
-            "Designed and delivered websites for small businesses and creatives. Focused on visual identity, mobile-first layouts, and clean, maintainable code.",
-        tags: ["HTML / CSS", "JavaScript", "Figma", "Webflow"],
+            "Developed the Smart Energy Meter platform using the MERN stack for real-time monitoring and analytics[cite: 13]. Engineered scalable REST APIs and optimized database queries to significantly improve system performance and responsiveness[cite: 14, 15].",
+        tags: ["React", "Node.js", "MongoDB", "Redux", "REST APIs"],
     },
 ];
 
@@ -136,7 +118,7 @@ export default function Experience() {
     return (
         <section
             ref={sectionRef}
-            className="bg-[#e7e7e7] text-[#1a1a1a] px-32 pt-36 pb-24 tracking-wider"
+            className="bg-[#e7e7e7] text-[#1a1a1a] px-32 pt-36 tracking-wider"
         >
             <div className="flex items-end justify-between flex-wrap gap-4 mb-16">
                 <div>
@@ -245,7 +227,7 @@ export default function Experience() {
                 <div ref={ctaRef} className="inline-block">
                     <a
                         href="#"
-                        className="inline-flex items-center gap-4 px-10 py-5 bg-[#1a1a1a] text-[#ebebeb] mono text-xl tracking-widest uppercase no-underline transition-colors duration-300 hover:bg-[#e8c97e] hover:text-[#1a1a1a] cursor-pointer"
+                        className="inline-flex items-center gap-4 px-10 py-5 bg-[#1a1a1a] text-[#ebebeb] mono text-xl tracking-widest uppercase no-underline transition-colors duration-300 hover:bg-[#e7e7e7] hover:border hover:border-[#1a1a1a] hover:text-[#1a1a1a] cursor-pointer"
                     >
                         View Full Resume
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">

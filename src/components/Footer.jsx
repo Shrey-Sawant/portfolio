@@ -275,9 +275,9 @@ export default function Footer() {
                   Focus
                 </span>
                 <span className="font-sans text-[2rem] font-light text-[#1a1a1a] tracking-[-0.01em] leading-[1.2]">
-                  UI &amp; UX
+                  Scalable 
                   <br />
-                  Design
+                  Solutions
                 </span>
               </div>
 

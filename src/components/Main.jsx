@@ -9,7 +9,7 @@ const Main = () => {
         <span className="text-xl">Hi,i'm Shrey</span>
         <h1 className="text-[80px] leading-tight mt-7 mb-40">
           Full-stack Developer <br />
-          UI & UX Designer.
+          Product Engineer
         </h1>
         <span className="text-xl">scroll down</span>
       </div>

@@ -132,7 +132,7 @@ const Work = () => {
 
           gsap.set(trackRef.current, { y });
 
-          const newIndex = Math.min(N - 1, Math.floor(self.progress * N));
+          const newIndex = Math.min(N - 1, Math.floor(self.progress * N ));
           if (newIndex !== activeIndexRef.current) {
             const going =
               newIndex > activeIndexRef.current ? "forward" : "back";
