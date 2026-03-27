@@ -34,137 +34,147 @@ const Work = () => {
   };
 
   useEffect(() => {
-    const panelEls = () => [titleRef.current, catRef.current, descRef.current];
-    const N = projects.length;
-
     gsapCtxRef.current = gsap.context(() => {
-      const flipCounter = (newIndex, going) => {
-        const exitY = going === "forward" ? "-100%" : "100%";
-        const enterY = going === "forward" ? "100%" : "-100%";
-        if (counterInRef.current)
-          counterInRef.current.textContent = projects[newIndex].id;
-        gsap.to(counterOutRef.current, {
-          y: exitY,
-          opacity: 0,
-          duration: 0.28,
-          ease: "power2.in",
-        });
-        gsap.fromTo(
-          counterInRef.current,
-          { y: enterY, opacity: 0 },
-          {
-            y: "0%",
-            opacity: 1,
-            duration: 0.32,
-            ease: "power3.out",
-            delay: 0.05,
-          },
-        );
-      };
+      let mm = gsap.matchMedia();
 
-      const exitContent = () => {
-        gsap.to(panelEls(), {
-          opacity: 0,
-          y: -18,
-          stagger: 0.05,
-          duration: 0.3,
-          ease: "power2.in",
-        });
-      };
+      mm.add("(min-width: 1024px)", () => {
+        const panelEls = () => [titleRef.current, catRef.current, descRef.current];
+        const N = projects.length;
 
-      const enterContent = (newIndex) => {
+        const flipCounter = (newIndex, going) => {
+          const exitY = going === "forward" ? "-100%" : "100%";
+          const enterY = going === "forward" ? "100%" : "-100%";
+          if (counterInRef.current)
+            counterInRef.current.textContent = projects[newIndex].id;
+          gsap.to(counterOutRef.current, {
+            y: exitY,
+            opacity: 0,
+            duration: 0.28,
+            ease: "power2.in",
+          });
+          gsap.fromTo(
+            counterInRef.current,
+            { y: enterY, opacity: 0 },
+            {
+              y: "0%",
+              opacity: 1,
+              duration: 0.32,
+              ease: "power3.out",
+              delay: 0.05,
+            },
+          );
+        };
+
+        const exitContent = () => {
+          gsap.to(panelEls(), {
+            opacity: 0,
+            y: -18,
+            stagger: 0.05,
+            duration: 0.3,
+            ease: "power2.in",
+          });
+        };
+
+        const enterContent = (newIndex) => {
+          gsap.fromTo(
+            panelEls(),
+            { opacity: 0, y: 20 },
+            {
+              opacity: 1,
+              y: 0,
+              stagger: 0.08,
+              duration: 0.5,
+              ease: "power3.out",
+              delay: 0.1,
+            },
+          );
+          if (counterOutRef.current)
+            counterOutRef.current.textContent = projects[newIndex].id;
+          gsap.set(counterOutRef.current, { y: "0%", opacity: 1 });
+          gsap.set(counterInRef.current, { y: "100%", opacity: 0 });
+        };
+
         gsap.fromTo(
           panelEls(),
-          { opacity: 0, y: 20 },
+          { opacity: 0, y: 24 },
           {
             opacity: 1,
             y: 0,
-            stagger: 0.08,
-            duration: 0.5,
+            stagger: 0.1,
+            duration: 0.7,
             ease: "power3.out",
-            delay: 0.1,
+            delay: 0.2,
           },
         );
-        if (counterOutRef.current)
-          counterOutRef.current.textContent = projects[newIndex].id;
         gsap.set(counterOutRef.current, { y: "0%", opacity: 1 });
         gsap.set(counterInRef.current, { y: "100%", opacity: 0 });
-      };
 
-      gsap.fromTo(
-        panelEls(),
-        { opacity: 0, y: 24 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.1,
-          duration: 0.7,
-          ease: "power3.out",
-          delay: 0.2,
-        },
-      );
-      gsap.set(counterOutRef.current, { y: "0%", opacity: 1 });
-      gsap.set(counterInRef.current, { y: "100%", opacity: 0 });
+        const GAP_PX = 256;
+        const IMAGE_H = () => window.innerHeight * 0.5;
+        const getPanelH = () => IMAGE_H() + GAP_PX;
+        const getTotalMove = () => getPanelH() * (N - 1);
 
-      const GAP_PX = 256;
-      const IMAGE_H = () => window.innerHeight * 0.5;
-      const getPanelH = () => IMAGE_H() + GAP_PX;
-      const getTotalMove = () => getPanelH() * (N - 1);
+        const updateSpacerHeight = () => {
+          const spacer = document.getElementById("work-spacer");
+          if (spacer) spacer.style.height = getTotalMove() + "px";
+        };
+        updateSpacerHeight();
+        window.addEventListener("resize", updateSpacerHeight);
 
-      const updateSpacerHeight = () => {
-        const spacer = document.getElementById("work-spacer");
-        if (spacer) spacer.style.height = getTotalMove() + "px";
-      };
-      updateSpacerHeight();
-      window.addEventListener("resize", updateSpacerHeight);
+        ScrollTrigger.create({
+          trigger: frameRef.current,
+          start: "top top",
+          end: () => `+=${getTotalMove()}`,
+          pin: true,
+          pinSpacing: true,
+          scrub: 1,
+          onUpdate(self) {
+            const panelH = getPanelH();
+            const totalMove = getTotalMove();
+            const y = -self.progress * totalMove;
 
-      ScrollTrigger.create({
-        trigger: frameRef.current,
-        start: "top top",
-        end: () => `+=${getTotalMove()}`,
-        pin: true,
-        pinSpacing: true,
-        scrub: 1,
-        onUpdate(self) {
-          const panelH = getPanelH();
-          const totalMove = getTotalMove();
-          const y = -self.progress * totalMove;
+            gsap.set(trackRef.current, { y });
 
-          gsap.set(trackRef.current, { y });
+            const newIndex = Math.min(N - 1, Math.floor(self.progress * N ));
+            if (newIndex !== activeIndexRef.current) {
+              const going =
+                newIndex > activeIndexRef.current ? "forward" : "back";
+              activeIndexRef.current = newIndex;
+              exitContent();
+              flipCounter(newIndex, going);
+              setTimeout(() => {
+                setActiveIndex(newIndex);
+                enterContent(newIndex);
+              }, 360);
+            }
 
-          const newIndex = Math.min(N - 1, Math.floor(self.progress * N ));
-          if (newIndex !== activeIndexRef.current) {
-            const going =
-              newIndex > activeIndexRef.current ? "forward" : "back";
-            activeIndexRef.current = newIndex;
-            exitContent();
-            flipCounter(newIndex, going);
-            setTimeout(() => {
-              setActiveIndex(newIndex);
-              enterContent(newIndex);
-            }, 360);
-          }
-
-          imgPanelRefs.current.forEach((panel, i) => {
-            if (!panel) return;
-            const img = panel.querySelector("img");
-            if (!img) return;
-            const panelTop = i * panelH;
-            const offset = panelTop + y + 128;
-            const rel = offset / (window.innerHeight * 0.5);
-            const dist = Math.abs(rel);
-            const scale = gsap.utils.clamp(1, 1.15, 1 + dist * 0.13);
-            const bright = gsap.utils.clamp(0.45, 0.92, 0.92 - dist * 0.42);
-            const sat = gsap.utils.clamp(0.55, 1, 1 - dist * 0.42);
-            gsap.set(img, {
-              scale,
-              filter: `brightness(${bright}) saturate(${sat})`,
+            imgPanelRefs.current.forEach((panel, i) => {
+              if (!panel) return;
+              const img = panel.querySelector("img");
+              if (!img) return;
+              const panelTop = i * panelH;
+              const offset = panelTop + y + 128;
+              const rel = offset / (window.innerHeight * 0.5);
+              const dist = Math.abs(rel);
+              const scale = gsap.utils.clamp(1, 1.15, 1 + dist * 0.13);
+              const bright = gsap.utils.clamp(0.45, 0.92, 0.92 - dist * 0.42);
+              const sat = gsap.utils.clamp(0.55, 1, 1 - dist * 0.42);
+              gsap.set(img, {
+                scale,
+                filter: `brightness(${bright}) saturate(${sat})`,
+              });
             });
-          });
-        },
+          },
+        });
+
+        return () => window.removeEventListener("resize", updateSpacerHeight);
       });
 
-      return () => window.removeEventListener("resize", updateSpacerHeight);
+      mm.add("(max-width: 1023px)", () => {
+        gsap.set(trackRef.current, { clearProps: "all" });
+        gsap.set(frameRef.current, { clearProps: "all" });
+      });
+
     });
 
     return () => {
@@ -181,18 +191,18 @@ const Work = () => {
   return (
     <>
       <div
+        id="works"
         ref={frameRef}
         className="w-full overflow-hidden relative"
-        style={{ position: "sticky", top: 0 }}
       >
-        <div className="grid grid-cols-[2fr_1fr] gap-20 mx-20">
-          <div className="overflow-hidden" style={{ height: "100vh" }}>
-            <div ref={trackRef} className="flex flex-col will-change-transform">
+        <div className="flex flex-col lg:grid lg:grid-cols-[2fr_1fr] gap-10 lg:gap-20 mx-6 lg:mx-20 pt-10 lg:pt-0">
+          <div className="overflow-hidden lg:h-[100vh]">
+            <div ref={trackRef} className="flex flex-col gap-12 lg:gap-0 will-change-transform">
               {projects.map((project, i) => (
                 <div
                   key={project.id}
                   ref={(el) => (imgPanelRefs.current[i] = el)}
-                  className={`flex-shrink-0 w-full py-32 ${i === 0 ? "mt-20" : ""}`}
+                  className={`flex-shrink-0 w-full lg:py-32 ${i === 0 ? "lg:mt-20" : ""}`}
                 >
                   <div
                     className="w-full overflow-hidden cursor-pointer group relative"
@@ -211,12 +221,20 @@ const Work = () => {
                       </span>
                     </div>
                   </div>
+                  {/* Mobile text below image */}
+                  <div className="lg:hidden mt-6 flex flex-col items-start gap-2">
+                    <h3 className="text-3xl uppercase tracking-tighter font-light">{project.title}</h3>
+                    <p className="text-lg tracking-tighter">{project.category}</p>
+                    <button onClick={() => openProject(i)} className="mt-2 text-sm font-medium tracking-widest uppercase border-b border-black pb-0.5">
+                      View Project →
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="sticky top-20 self-start pt-20">
+          <div className="hidden lg:block sticky top-20 self-start pt-20">
             <div className="border-b-2 border-black flex justify-between pb-1">
               <h2 className="text-2xl uppercase text-start">Works</h2>
               <p className="text-2xl">/shrey</p>

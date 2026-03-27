@@ -118,7 +118,7 @@ export default function Experience() {
     return (
         <section
             ref={sectionRef}
-            className="bg-[#e7e7e7] text-[#1a1a1a] px-32 pt-36 tracking-wider"
+            className="bg-[#e7e7e7] text-[#1a1a1a] px-6 md:px-32 pt-20 md:pt-36 tracking-wider"
         >
             <div className="flex items-end justify-between flex-wrap gap-4 mb-16">
                 <div>
@@ -128,7 +128,7 @@ export default function Experience() {
 
                     <div
                         ref={titleRef}
-                        className="font-light text-[64px] leading-tight text-[#1a1a1a] overflow-hidden"
+                        className="font-light text-5xl md:text-[64px] leading-tight text-[#1a1a1a] overflow-hidden"
                     >
                         {splitLetters("Experience.")}
                     </div>
@@ -152,7 +152,7 @@ export default function Experience() {
                 {experiences.map((exp, i) => (
                     <div
                         key={i}
-                        className={`exp-row group relative grid grid-cols-[200px_1fr_auto] items-start gap-10 py-12
+                        className={`exp-row group relative flex flex-col md:grid md:grid-cols-[200px_1fr_auto] items-start gap-6 md:gap-10 py-8 md:py-12
                             ${i < experiences.length - 1 ? "border-b border-[#1a1a1a]/10" : ""}
                         `}
                     >

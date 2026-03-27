@@ -177,11 +177,12 @@ export default function Footer() {
 
   return (
     <footer
+      id="contact"
       ref={footerRef}
       className="relative bg-[#e7e7e7] text-[#1a1a1a] overflow-hidden border-t border-[#1a1a1a]/10 font-mono"
     >
 
-      <div className="px-20 pt-28 pb-14">
+      <div className="px-6 md:px-20 pt-16 md:pt-28 pb-10 md:pb-14">
         <div className="flex flex-wrap items-start">
           <div className="flex-1 min-w-[300px]">
             <p className="text-3xl tracking-[0.22em] uppercase text-[#1a1a1a]/50 mb-8">
@@ -227,7 +228,7 @@ export default function Footer() {
               ref={bentoRef}
               className="grid grid-cols-3 grid-rows-2 gap-[7px]"
             >
-              <div className="bento-cell col-span-2 flex flex-col justify-between min-h-[160px] p-8 border border-[#1a1a1a]/[0.12] cursor-default transition-all duration-200 hover:border-[#1a1a1a]/40 hover:bg-[#1a1a1a]/[0.03]">
+              <div className="bento-cell col-span-3 lg:col-span-2 flex flex-col justify-between min-h-[160px] p-8 border border-[#1a1a1a]/[0.12] cursor-default transition-all duration-200 hover:border-[#1a1a1a]/40 hover:bg-[#1a1a1a]/[0.03]">
                 <span className="text-[17px] tracking-[0.18em] uppercase text-[#1a1a1a]/45 font-mono">
                   Engineering
                 </span>
@@ -238,7 +239,7 @@ export default function Footer() {
                 </span>
               </div>
 
-              <div className="bento-cell row-span-2 flex flex-col justify-between min-h-[340px] p-8 border border-[#1a1a1a]/[0.12] cursor-default transition-all duration-200 hover:border-[#1a1a1a]/40 hover:bg-[#1a1a1a]/[0.03]">
+              <div className="bento-cell col-span-3 lg:col-span-1 lg:row-span-2 flex flex-col justify-between min-h-[340px] p-8 border border-[#1a1a1a]/[0.12] cursor-default transition-all duration-200 hover:border-[#1a1a1a]/40 hover:bg-[#1a1a1a]/[0.03]">
                 <span className="text-[17px] tracking-[0.18em] uppercase text-[#1a1a1a]/45 font-mono">
                   Based in
                 </span>
@@ -270,7 +271,7 @@ export default function Footer() {
                 </svg>
               </div>
 
-              <div className="bento-cell flex flex-col justify-between min-h-[160px] p-8 border border-[#1a1a1a]/[0.12] cursor-default transition-all duration-200 hover:border-[#1a1a1a]/40 hover:bg-[#1a1a1a]/[0.03]">
+              <div className="bento-cell col-span-3 lg:col-span-1 flex flex-col justify-between min-h-[160px] p-8 border border-[#1a1a1a]/[0.12] cursor-default transition-all duration-200 hover:border-[#1a1a1a]/40 hover:bg-[#1a1a1a]/[0.03]">
                 <span className="text-[17px] tracking-[0.18em] uppercase text-[#1a1a1a]/45 font-mono">
                   Focus
                 </span>
@@ -281,7 +282,7 @@ export default function Footer() {
                 </span>
               </div>
 
-              <div className="bento-cell flex flex-col justify-between min-h-[160px] p-8 border border-[#1a1a1a]/[0.12] cursor-default transition-all duration-200 hover:border-[#1a1a1a]/40 hover:bg-[#1a1a1a]/[0.03]">
+              <div className="bento-cell col-span-3 lg:col-span-1 flex flex-col justify-between min-h-[160px] p-8 border border-[#1a1a1a]/[0.12] cursor-default transition-all duration-200 hover:border-[#1a1a1a]/40 hover:bg-[#1a1a1a]/[0.03]">
                 <span className="text-[17px] tracking-[0.18em] uppercase text-[#1a1a1a]/45 font-mono">
                   Status
                 </span>
@@ -349,16 +350,21 @@ export default function Footer() {
 
       <div
         ref={linksRef}
-        className="px-10 py-10 flex flex-wrap items-center justify-between gap-8"
+        className="px-6 md:px-10 py-10 flex flex-wrap items-center justify-between gap-8"
       >
         <nav className="flex flex-wrap gap-10">
-          {["Work", "About", "Contact", "Resume"].map((item) => (
+          {[
+            { name: "Home", href: "/#home" },
+            { name: "About", href: "/#about" },
+            { name: "Works", href: "/#works" },
+            { name: "Contact", href: "/#contact" }
+          ].map((item) => (
             <a
-              key={item}
-              href="#"
+              key={item.name}
+              href={item.href}
               className="link-item text-[17px] tracking-[0.14em] uppercase text-[#1a1a1a]/45 no-underline transition-colors duration-200 hover:text-[#1a1a1a]"
             >
-              {item}
+              {item.name}
             </a>
           ))}
         </nav>

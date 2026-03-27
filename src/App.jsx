@@ -7,6 +7,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProjectPage from "./components/ProjectPage.jsx";
 import Footer from "./components/Footer.jsx";
 import Experience from "./components/Experience.jsx";
+import CardAnimation2 from "./components/CardAnimation2.jsx";
+import ServiceSection from "./components/ServiceSection.jsx";
 
 const App = () => {
   return (
@@ -20,6 +22,7 @@ const App = () => {
               <Main />
               <CardAnimation />
               <About />
+              <CardAnimation2 />
               <Experience />
               <Work />
               <Footer />
