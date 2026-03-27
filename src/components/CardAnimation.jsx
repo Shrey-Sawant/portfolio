@@ -102,7 +102,7 @@ const CardAnimation = () => {
         zIndex:   (i) => STACK_STATE[i].zIndex,
         ease:     "power3.inOut",
         stagger:  { each: 0.06, from: "center" },
-        duration: 1,
+        duration: 1.6,
       }, 0);
 
       cards.forEach((card, i) => {

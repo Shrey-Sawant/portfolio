@@ -3,120 +3,180 @@ import arrow from "../assets/arrow.png";
 import square from "../assets/square.png";
 import { useEffect, useRef, forwardRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { div } from "motion/react-client";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ─── DATA ─────────────────────────────────────────────
 const Cards = [
+  { title: "Strategy", img: checker, bg: "bg-[#E5DAF6]", delay: 0 },
+  { title: "Design", img: arrow, bg: "bg-[#FFD2F3]", delay: 0.8 },
+  { title: "Build", img: square, bg: "bg-[#FCDCA6]", delay: 1.6 },
+];
+
+const CARD_BACKS = [
   {
-    title: "Strategy",
-    img: checker,
-    bg: "bg-[#E5DAF6]",
-    backBg: "#f5f0fb",
+    label: "Strategy",
+    icon: checker,
+    items: [
+      "Visual Research",
+      "Mitbewerber Analyse",
+      "Wireframes",
+      "Content Mapping",
+      "User Flow",
+      "Konzepte",
+    ],
   },
   {
-    title: "Design",
-    img: arrow,
-    bg: "bg-[#FFD2F3]",
-    backBg: "#fff5fd",
+    label: "Design",
+    icon: arrow,
+    items: [
+      "Unternehmenswebsites",
+      "Marketing Websites",
+      "Design System",
+      "Animation",
+      "Design Support",
+      "Barrierefreies Design",
+    ],
   },
   {
-    title: "Build",
-    img: square,
-    bg: "bg-[#FCDCA6]",
-    backBg: "#fffbf0",
+    label: "Build",
+    icon: square,
+    items: [
+      "Webflow Entwicklung",
+      "Web Animation",
+      "Webflow CMS",
+      "Barrierefreie Entwicklung",
+      "Technisches SEO",
+      "Frontend Support",
+    ],
   },
 ];
 
-// ─── CARD ─────────────────────────────────────────────
-const Card = forwardRef(function Card({ bg, backBg, title, img }, ref) {
+const START_STACKED = [
+  { x: -10, y: -200, rotation: -4, zIndex: 1, opacity: 0, scale: 0.6 },
+  { x: 0, y: -200, rotation: 0, zIndex: 3, opacity: 0, scale: 0.6 },
+  { x: 10, y: -200, rotation: 4, zIndex: 2, opacity: 0, scale: 0.6 },
+];
+
+const LAND_STACKED = [
+  { x: -40, y: 0, rotation: -6, zIndex: 1, opacity: 1, scale: 1.3 },
+  { x: 0, y: 0, rotation: 0, zIndex: 3, opacity: 1, scale: 1.4 },
+  { x: 40, y: 0, rotation: 6, zIndex: 2, opacity: 1, scale: 1.3 },
+];
+
+const LINE_STATE = [
+  { x: -100, y: 0, rotation: 0, zIndex: 1, scale: 2.0 },
+  { x: 0, y: 0, rotation: 0, zIndex: 3, scale: 2.0 },
+  { x: 100, y: 0, rotation: 0, zIndex: 2, scale: 2.0 },
+];
+
+const FLIP_DIRECTION = [-180, 180, 180];
+
+const CardBack = ({ label, icon, items }) => (
+  <div
+    className="absolute inset-0 rounded-lg flex flex-col justify-between shadow-md overflow-hidden bg-white"
+    style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+  >
+    <div className="flex justify-between items-center px-3 pt-3 pb-1">
+      <p className="text-[6px] font-bold uppercase tracking-widest">{label}</p>
+      <img src={icon} alt={label} className="size-3" />
+    </div>
+
+    <div className="flex flex-col gap-y-1 px-3 py-1 flex-1 justify-center">
+      {items.map((item) => (
+        <div
+          key={item}
+          className="flex items-center justify-center py-1.5 rounded-sm"
+          style={{ backgroundColor: "#e7e7e7" }}
+        >
+          <p className="text-[7px] font-medium tracking-tight text-center">
+            {item}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <div
+      className="flex justify-between items-center px-3 pt-1 pb-3"
+      style={{ transform: "rotate(180deg)" }}
+    >
+      <img src={icon} alt={label} className="size-3" />
+      <p className="text-[6px] font-bold uppercase tracking-widest">{label}</p>
+    </div>
+  </div>
+);
+
+const Card = forwardRef(function Card({ bg, title, img, delay, back }, ref) {
   const floatRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.to(floatRef.current, {
+        y: -15,
+        rotation: 1,
+        duration: 1.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay,
+      });
+    });
+    return () => ctx.revert();
+  }, [delay]);
 
   return (
     <div
       ref={ref}
-      className="absolute will-change-transform"
-      style={{
-        width: 340,
-        height: 520,
-        transformStyle: "preserve-3d",
-      }}
+      className="h-60 w-44 will-change-transform absolute"
+      style={{ perspective: "1000px" }}
     >
-      {/* FRONT */}
       <div
         ref={floatRef}
-        className={`absolute inset-0 rounded-2xl flex flex-col justify-between shadow-xl ${bg}`}
-        style={{ backfaceVisibility: "hidden" }}
+        className="relative w-full h-full"
+        style={{ transformStyle: "preserve-3d" }}
       >
-        <div className="flex justify-between items-start p-5">
-          <p className="text-[11px] font-bold uppercase tracking-widest">
-            {title}
-          </p>
-          <img src={img} className="w-5 h-5 opacity-80" alt="" />
-        </div>
-
-        <div className="flex justify-center items-center flex-1">
-          <img src={img} className="w-20 h-20 opacity-60" alt="" />
-        </div>
-
-        <div className="flex justify-between items-end p-5">
-          <span className="flex items-center gap-2">
-            <img src={img} className="w-4 h-4 opacity-60" alt="" />
-            <p className="text-[9px] font-mono opacity-60">nvl-101</p>
-          </span>
-          <p
-            className="text-[11px] font-bold uppercase tracking-widest opacity-80"
-            style={{ transform: "rotate(180deg)" }}
+        <div
+          data-flip="true"
+          className="relative w-full h-full"
+          style={{ transformStyle: "preserve-3d" }}
+        >
+          <div
+            className={`absolute inset-0 rounded-lg flex flex-col gap-y-10 items-center justify-center shadow-md ${bg}`}
+            style={{ backfaceVisibility: "hidden" }}
           >
-            {title}
-          </p>
-        </div>
-      </div>
-
-      {/* BACK */}
-      <div
-        className="absolute inset-0 rounded-2xl flex flex-col shadow-xl overflow-hidden"
-        style={{
-          backfaceVisibility: "hidden",
-          transform: "rotateY(180deg)",
-          backgroundColor: backBg,
-        }}
-      >
-        <div className="flex justify-between items-center px-5 py-4 border-b border-black/10">
-          <p className="text-[11px] font-bold uppercase tracking-widest text-black/70">
-            {title}
-          </p>
-          <img src={img} className="w-5 h-5 opacity-70" alt="" />
-        </div>
-
-        <div className="flex flex-col gap-[6px] px-4 py-4 flex-1">
-          {["Service A", "Service B", "Service C"].map((s, i) => (
-            <div
-              key={i}
-              className="flex items-center justify-center rounded-xl px-4 py-[10px] text-[13px] font-medium text-black/75"
-              style={{ backgroundColor: "rgba(0,0,0,0.055)" }}
-            >
-              {s}
+            <div className="w-full flex justify-between items-center p-4">
+              <p className="p-2 text-[6px] font-bold uppercase tracking-tighter">
+                {title}
+              </p>
+              <img src={checker} alt="Checker" className="size-3" />
             </div>
-          ))}
-        </div>
+            <img src={img} alt="Card" className="size-16" />
+            <div className="w-full flex justify-between items-center p-4">
+              <span className="flex gap-3 items-end">
+                <img src={img} alt="Icon" className="size-3" />
+                <p className="text-[4px] font-bold uppercase tracking-tighter font-mono">
+                  nvl-101
+                </p>
+              </span>
+              <p className="p-2 text-[6px] rotate-180 font-bold uppercase tracking-tighter">
+                {title}
+              </p>
+            </div>
+          </div>
 
-        <div className="flex justify-between items-center px-5 py-4 border-t border-black/10">
-          <img src={img} className="w-4 h-4 opacity-50" alt="" />
-          <p
-            className="text-[11px] font-bold uppercase tracking-widest opacity-50"
-            style={{ transform: "rotate(180deg)" }}
-          >
-            {title}
-          </p>
+          <CardBack
+            label={back.label}
+            icon={back.icon}
+            items={back.items}
+            bg={bg}
+          />
         </div>
       </div>
     </div>
   );
 });
 
-// ─── MAIN ─────────────────────────────────────────────
 const CardAnimation2 = () => {
   const sectionRef = useRef(null);
   const cardRefs = useRef([]);
@@ -125,90 +185,75 @@ const CardAnimation2 = () => {
     const cards = cardRefs.current.filter(Boolean);
     if (!cards.length) return;
 
+    const flipWrappers = cards.map((card) =>
+      card.querySelector("[data-flip='true']"),
+    );
+
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ paused: true });
+      cards.forEach((card, i) => gsap.set(card, START_STACKED[i]));
 
-      cards.forEach((card, index) => {
-        const position = 2 - index - 1;
+      const tl = gsap.timeline();
 
-        const rotationZValues = [12, 0, -12];
-        const rotationZValuesAnimated = [5, 0, -5];
+      tl.to(
+        cards,
+        {
+          x: (i) => LAND_STACKED[i].x,
+          y: (i) => LAND_STACKED[i].y,
+          rotation: (i) => LAND_STACKED[i].rotation,
+          zIndex: (i) => LAND_STACKED[i].zIndex,
+          opacity: 1,
+          scale: (i) => LAND_STACKED[i].scale,
+          ease: "power2.out",
+          stagger: { each: 0.15, from: "center" },
+          duration: 2.2,
+        },
+        0,
+      );
+
+      tl.to(
+        cards,
+        {
+          x: (i) => LINE_STATE[i].x,
+          y: (i) => LINE_STATE[i].y,
+          rotation: (i) => LINE_STATE[i].rotation,
+          zIndex: (i) => LINE_STATE[i].zIndex,
+          scale: (i) => LINE_STATE[i].scale,
+          ease: "power3.inOut",
+          stagger: { each: 0.12, from: "center" },
+          duration: 1.2,
+        },
+        "unstack",
+      );
+
+      const flipOrigins = ["0% 50%", "50% 50%", "100% 50%"];
+      const flipOrder = [0, 1, 2];
+
+      flipOrder.forEach((cardIndex, step) => {
+        gsap.set(flipWrappers[cardIndex], {
+          transformOrigin: flipOrigins[cardIndex],
+        });
 
         tl.to(
-          card,
+          flipWrappers[cardIndex],
           {
-            force3D: true,
-            keyframes: {
-              // START OFF-SCREEN
-              "0%": {
-                y: () => -0.75 * window.innerHeight,
-                x: () => -position * (card.offsetWidth * 1.2),
-                scale: 0.2,
-                rotationZ: rotationZValues[index],
-                rotateX: 24,
-              },
-
-              // MOVE DOWN + SCALE
-              "40%": {
-                y: "20%",
-                scale: 0.8,
-                rotationZ: rotationZValuesAnimated[index],
-                rotateX: 0,
-                rotationY: 0,
-              },
-
-              // CENTER + PREPARE TO FLIP
-              "55%": {
-                y: 0,
-                x: () => gsap.getProperty(card, "x"),
-                rotateY: 0,
-              },
-
-              // FLIP
-              "75%": {
-                rotationY: -190,
-                scale: 1,
-                rotationZ: 0,
-              },
-
-              "82%": {
-                rotationY: -180,
-              },
-
-              // FINAL HOVER FLOAT
-              "100%": {
-                rotationZ: 0,
-              },
-            },
-            ease: "none",
+            rotateY: FLIP_DIRECTION[cardIndex],
+            ease: "power2.inOut",
+            duration: 0.9,
           },
-          index * 0.12
+          `unstack+=${step * 0.35}`,
         );
       });
 
-      // ScrollTrigger to control the timeline
       ScrollTrigger.create({
         trigger: sectionRef.current,
-        start: "top top",
-        end: "+=2000",
+        start: "top 50%",
+        end: "+=200",
+        scrub: 1.5,
         pin: true,
-        scrub: true,
+        pinSpacing: false,
+        pinType: "transform",
+        anticipatePin: 1,
         animation: tl,
-      });
-
-      // Floating animation after scroll completes
-      cards.forEach((card) => {
-        gsap.fromTo(
-          card,
-          { yPercent: -2 },
-          {
-            yPercent: 2,
-            duration: () => gsap.utils.random(1.5, 2.5),
-            ease: "sine.inOut",
-            repeat: -1,
-            yoyo: true,
-          }
-        );
       });
     }, sectionRef);
 
@@ -216,21 +261,27 @@ const CardAnimation2 = () => {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative w-full flex items-center justify-center min-h-[350vh]"
-      style={{ perspective: "1400px" }}
-    >
-      <div className="relative flex items-center justify-center w-full h-screen sticky top-0">
-        {Cards.map((card, index) => (
-          <Card
-            key={index}
-            {...card}
-            ref={(el) => (cardRefs.current[index] = el)}
-          />
-        ))}
-      </div>
-    </section>
+    <div className="flex flex-col items-center justify-center ">
+      <h2 className="text-6xl font-mono text-center translate-y-40">Skills</h2>
+      <section
+        ref={sectionRef}
+        className="relative w-full min-h-screen flex items-center justify-center bg-[#e7e7e7]"
+      >
+        <div className="relative flex items-center justify-center w-full h-full overflow-hidden">
+          {Cards.map((card, index) => (
+            <Card
+              key={index}
+              bg={card.bg}
+              title={card.title}
+              img={card.img}
+              delay={card.delay}
+              back={CARD_BACKS[index]}
+              ref={(el) => (cardRefs.current[index] = el)}
+            />
+          ))}
+        </div>
+      </section>
+    </div>
   );
 };
 

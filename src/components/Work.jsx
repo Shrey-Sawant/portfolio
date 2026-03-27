@@ -221,7 +221,6 @@ const Work = () => {
                       </span>
                     </div>
                   </div>
-                  {/* Mobile text below image */}
                   <div className="lg:hidden mt-6 flex flex-col items-start gap-2">
                     <h3 className="text-3xl uppercase tracking-tighter font-light">{project.title}</h3>
                     <p className="text-lg tracking-tighter">{project.category}</p>
