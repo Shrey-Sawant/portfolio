@@ -9,46 +9,46 @@ import { div } from "motion/react-client";
 gsap.registerPlugin(ScrollTrigger);
 
 const Cards = [
-  { title: "Strategy", img: checker, bg: "bg-[#E5DAF6]", delay: 0 },
+  { title: "Frontend", img: checker, bg: "bg-[#E5DAF6]", delay: 0 },
   { title: "Design", img: arrow, bg: "bg-[#FFD2F3]", delay: 0.8 },
-  { title: "Build", img: square, bg: "bg-[#FCDCA6]", delay: 1.6 },
+  { title: "TOOLS & CONCEPTS", img: square, bg: "bg-[#FCDCA6]", delay: 1.6 },
 ];
 
 const CARD_BACKS = [
   {
-    label: "Strategy",
+    label: "Frontend",
     icon: checker,
     items: [
-      "Visual Research",
-      "Mitbewerber Analyse",
-      "Wireframes",
-      "Content Mapping",
-      "User Flow",
-      "Konzepte",
+      "React js",
+      "Next js", 
+      "Redux", 
+      "Gsap", 
+      "Framer",
+      "Tailwind CSS", 
     ],
   },
   {
-    label: "Design",
+    label: "Backend",
     icon: arrow,
     items: [
-      "Unternehmenswebsites",
-      "Marketing Websites",
-      "Design System",
-      "Animation",
-      "Design Support",
-      "Barrierefreies Design",
+      "Node js",
+      "Express js",
+      "Flask",
+      "REST APIs",
+      "MongoDB",
+      "MySQL",
     ],
   },
   {
-    label: "Build",
+    label: "TOOLS & CONCEPTS",
     icon: square,
     items: [
-      "Webflow Entwicklung",
-      "Web Animation",
-      "Webflow CMS",
-      "Barrierefreie Entwicklung",
-      "Technisches SEO",
-      "Frontend Support",
+      "Git & GitHub",
+      "Vercel & Render",
+      "Hostinger & Godaddy",
+      "Socket IO",
+      "Figma",
+      "WordPress",
     ],
   },
 ];

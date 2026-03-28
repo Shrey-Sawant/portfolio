@@ -33,20 +33,32 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 80);
+      const isAtTop = window.scrollY <= 80;
+
+      setScrolled((prev) => {
+        const next = !isAtTop;
+        return prev !== next ? next : prev;
+      });
+
+      if (isAtTop) {
+        setIsOpen((prev) => (prev ? false : prev));
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
-    <nav className="bg-opacity-0 w-full px-6 py-6 flex justify-between items-center z-50 sticky top-0">
-      
+    <nav
+      className={`${scrolled ? "bg-[#e7e7e7] bg-opacity-100" : "bg-opacity-0"} w-full px-6 py-6 flex justify-between items-center z-50 sticky top-0`}
+    >
       <img src={logo} alt="logo" className="size-16 bg-[#e7e7e7]" />
 
       <div className="relative flex items-center justify-end w-1/2">
-
         <div
           className={`hidden md:flex items-center gap-10 absolute transition-all duration-500 ${
             scrolled

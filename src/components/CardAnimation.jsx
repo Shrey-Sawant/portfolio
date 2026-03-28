@@ -8,9 +8,9 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const Cards = [
-  { title: "Strategy", img: checker, bg: "bg-[#E5DAF6]", delay: 0   },
-  { title: "Design",   img: arrow,   bg: "bg-[#FFD2F3]", delay: 0.8 },
-  { title: "Build",    img: square,  bg: "bg-[#FCDCA6]", delay: 1.6 },
+  { title: "Frontend", img: checker, bg: "bg-[#E5DAF6]", delay: 0 },
+  { title: "Design", img: arrow, bg: "bg-[#FFD2F3]", delay: 0.8 },
+  { title: "TOOLS & CONCEPTS", img: square, bg: "bg-[#FCDCA6]", delay: 1.6 },
 ];
 
 const LINE_STATE = [

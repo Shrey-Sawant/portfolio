@@ -154,23 +154,20 @@ export default function Footer() {
   const socials = [
     {
       label: "GitHub",
-      href: "#",
       icon: (
-        <FaGithub size={24} fill="currentColor" />
+        <FaGithub size={24} fill="currentColor" onClick={() => window.open("https://github.com/Shrey-Sawant", "_blank")} />
       ),
     },
     {
       label: "LinkedIn",
-      href: "#",
       icon: (
-         <FaLinkedin size={24} fill="currentColor" />
+         <FaLinkedin size={24} fill="currentColor" onClick={() => window.open("https://www.linkedin.com/in/shrey-sawant-2bb4a0322/", "_blank")} />
       ),
     },
     {
       label: "Instagram",
-      href: "#",
       icon: (
-        <FaInstagram size={24} fill="currentColor" />
+        <FaInstagram size={24} fill="currentColor" onClick={() => window.open("https://www.instagram.com/shreysawant0107/", "_blank")} />
       ),
     },
   ];
@@ -316,7 +313,7 @@ export default function Footer() {
                     />
                     <button
                       onClick={handleSend}
-                      className="px-8 py-5 bg-[#1a1a1a] text-[#ebebeb] font-mono text-[15px] tracking-[0.16em] uppercase flex items-center gap-3 transition-colors duration-200 hover:bg-[#e8c97e] hover:text-[#1a1a1a] cursor-pointer border-none"
+                      className="px-8 py-5 bg-[#1a1a1a] text-[#ebebeb] font-mono text-[15px] tracking-[0.16em] uppercase flex items-center gap-3 transition-colors duration-200 hover:bg-black/40 hover:text-[#1a1a1a] cursor-pointer border-none"
                     >
                       Send
                         <FaArrowRight size={14} fill="currentColor" />
@@ -383,7 +380,6 @@ export default function Footer() {
           {socials.map((s) => (
             <a
               key={s.label}
-              href={s.href}
               aria-label={s.label}
               className="link-item flex items-center text-[#1a1a1a]/35 transition-colors duration-200 hover:text-[#1a1a1a]"
             >
