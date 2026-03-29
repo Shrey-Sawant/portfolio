@@ -36,11 +36,11 @@ export default function ProjectPage() {
   } = project;
 
   return (
-    <div className="bg-[#e7e7e7] text-[#111] min-h-screen relative overflow-x-hidden">
-      <main className="max-w-screen mx-auto px-6 md:px-20 py-12 pb-20">
+    <div className="bg-[#e7e7e7] text-[#111] min-h-screen relative overflow-x-hidden mt-12">
+      <main className="max-w-screen mx-auto px-6 md:px-20 py-12 pb-20 ">
         <button
           onClick={() => navigate("/")}
-          className="text-sm text-gray-500 inline-flex items-center gap-1.5 hover:text-[#111] transition-colors cursor-pointer bg-transparent border-none p-0"
+          className="text-sm text-gray-500 inline-flex items-center gap-1.5 hover:text-[#111] transition-colors cursor-pointer bg-transparent border-none "
         >
           ← Back to projects
         </button>
