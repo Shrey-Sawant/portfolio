@@ -254,7 +254,7 @@ const CardAnimation2 = () => {
 
         ScrollTrigger.create({
           trigger: sectionRef.current,
-          start: isSmall ? "top 10%" : "top 50%",
+          start: isSmall ? "top top" : "top 30%",
           end: "+=200",
           scrub: 1.5,
           pin: true,

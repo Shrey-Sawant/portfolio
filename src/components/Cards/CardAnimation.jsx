@@ -89,49 +89,56 @@ const CardAnimation = () => {
     if (!cards.length) return;
 
     const ctx = gsap.context(() => {
-      const isSmall = window.innerWidth < 1024;
-      const dynamicLineState = isSmall ? [
-        { x: 0, y: -200, rotation: 0, zIndex: 1 },
-        { x: 0, y: 0,   rotation: 0, zIndex: 3 },
-        { x: 0, y: 200, rotation: 0, zIndex: 2 },
-      ] : [
-        { x: -200, y: 0, rotation: 0, zIndex: 1 },
-        { x: 0,    y: 0, rotation: 0, zIndex: 3 },
-        { x: 200,  y: 0, rotation: 0, zIndex: 2 },
-      ];
+      let mm = gsap.matchMedia();
 
-      cards.forEach((card, i) => {
-        gsap.set(card, { ...dynamicLineState[i], opacity: 1 });
+      const runAnimation = (isMobile) => {
+        const dynamicLineState = isMobile ? [
+          { x: 0, y: -220, rotation: 0, zIndex: 1 },
+          { x: 0, y: 0,   rotation: 0, zIndex: 3 },
+          { x: 0, y: 220, rotation: 0, zIndex: 2 },
+        ] : LINE_STATE;
+
+        cards.forEach((card, i) => {
+          gsap.set(card, { ...dynamicLineState[i], opacity: 1 });
+        });
+
+        const tl = gsap.timeline();
+
+        tl.to(cards, {
+          x:        (i) => STACK_STATE[i].x,
+          y:        (i) => STACK_STATE[i].y,
+          rotation: (i) => STACK_STATE[i].rotation,
+          zIndex:   (i) => STACK_STATE[i].zIndex,
+          ease:     "power3.inOut",
+          stagger:  { each: 0.06, from: "center" },
+          duration: 1.6,
+        }, 0);
+
+        cards.forEach((card, i) => {
+          tl.to(card, {
+            y:        EXIT_STATE[i].y,
+            opacity:  EXIT_STATE[i].opacity,
+            ease:     "power2.in",
+            duration: 1,
+          }, 1);
+        });
+
+        ScrollTrigger.create({
+          trigger:   sectionRef.current,
+          start:     "top 50%",
+          end:       "+=100",
+          scrub:     1,
+          pin:       true,
+          animation: tl,
+        });
+      };
+
+      mm.add("(max-width: 767px)", () => {
+        runAnimation(true);
       });
 
-      const tl = gsap.timeline();
-
-      tl.to(cards, {
-        x:        (i) => STACK_STATE[i].x,
-        y:        (i) => STACK_STATE[i].y,
-        rotation: (i) => STACK_STATE[i].rotation,
-        zIndex:   (i) => STACK_STATE[i].zIndex,
-        ease:     "power3.inOut",
-        stagger:  { each: 0.06, from: "center" },
-        duration: 1.6,
-      }, 0);
-
-      cards.forEach((card, i) => {
-        tl.to(card, {
-          y:        EXIT_STATE[i].y,
-          opacity:  EXIT_STATE[i].opacity,
-          ease:     "power2.in",
-          duration: 1,
-        }, 1);
-      });
-
-      ScrollTrigger.create({
-        trigger:   sectionRef.current,
-        start:     "top 50%",
-        end:       "+=100",
-        scrub:     1,
-        pin:       true,
-        animation: tl,
+      mm.add("(min-width: 768px)", () => {
+        runAnimation(false);
       });
 
     }, sectionRef);
