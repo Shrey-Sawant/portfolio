@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import projects from "../constants/Projectsdata";
+import projects from "../../constants/Projectsdata";
 
 export default function ProjectPage() {
   const { slug } = useParams();
@@ -37,7 +37,7 @@ export default function ProjectPage() {
 
   return (
     <div className="bg-[#e7e7e7] text-[#111] min-h-screen relative overflow-x-hidden">
-      <main className="max-w-screen mx-auto px-20 py-12 pb-20">
+      <main className="max-w-screen mx-auto px-6 md:px-20 py-12 pb-20">
         <button
           onClick={() => navigate("/")}
           className="text-sm text-gray-500 inline-flex items-center gap-1.5 hover:text-[#111] transition-colors cursor-pointer bg-transparent border-none p-0"

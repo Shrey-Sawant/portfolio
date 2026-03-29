@@ -237,7 +237,7 @@ export default function Experience() {
                 </div>
 
                 <p className="mono text-xl font-light tracking-wider text-[#1a1a1a]/35">
-                    {experiences.length} years · Mumbai, India
+                    {experiences.length} Work Experiences · Mumbai, India
                 </p>
             </div>
 

@@ -1,10 +1,9 @@
-import checker from "../assets/checker.png";
-import arrow from "../assets/arrow.png";
-import square from "../assets/square.png";
+import checker from "../../assets/checker.png";
+import arrow from "../../assets/arrow.png";
+import square from "../../assets/square.png";
 import { useEffect, useRef, forwardRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import { div } from "motion/react-client";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,12 +64,6 @@ const LAND_STACKED = [
   { x: 40, y: 0, rotation: 6, zIndex: 2, opacity: 1, scale: 1.3 },
 ];
 
-const LINE_STATE = [
-  { x: -100, y: 0, rotation: 0, zIndex: 1, scale: 2.0 },
-  { x: 0, y: 0, rotation: 0, zIndex: 3, scale: 2.0 },
-  { x: 100, y: 0, rotation: 0, zIndex: 2, scale: 2.0 },
-];
-
 const FLIP_DIRECTION = [-180, 180, 180];
 
 const CardBack = ({ label, icon, items }) => (
@@ -79,7 +72,7 @@ const CardBack = ({ label, icon, items }) => (
     style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
   >
     <div className="flex justify-between items-center px-3 pt-3 pb-1">
-      <p className="text-[6px] font-bold uppercase tracking-widest">{label}</p>
+      <p className="text-[6px] md:text-[10px] font-bold uppercase tracking-widest">{label}</p>
       <img src={icon} alt={label} className="size-3" />
     </div>
 
@@ -90,7 +83,7 @@ const CardBack = ({ label, icon, items }) => (
           className="flex items-center justify-center py-1.5 rounded-sm"
           style={{ backgroundColor: "#e7e7e7" }}
         >
-          <p className="text-[7px] font-medium tracking-tight text-center">
+          <p className="text-[7px] md:text-[10px] font-medium tracking-tight text-center">
             {item}
           </p>
         </div>
@@ -190,82 +183,107 @@ const CardAnimation2 = () => {
     );
 
     const ctx = gsap.context(() => {
-      cards.forEach((card, i) => gsap.set(card, START_STACKED[i]));
+      let mm = gsap.matchMedia();
 
-      const tl = gsap.timeline();
+      const buildTimeline = (isSmall) => {
+        cards.forEach((card, i) => gsap.set(card, START_STACKED[i]));
 
-      tl.to(
-        cards,
-        {
-          x: (i) => LAND_STACKED[i].x,
-          y: (i) => LAND_STACKED[i].y,
-          rotation: (i) => LAND_STACKED[i].rotation,
-          zIndex: (i) => LAND_STACKED[i].zIndex,
-          opacity: 1,
-          scale: (i) => LAND_STACKED[i].scale,
-          ease: "power2.out",
-          stagger: { each: 0.15, from: "center" },
-          duration: 2.2,
-        },
-        0,
-      );
-
-      tl.to(
-        cards,
-        {
-          x: (i) => LINE_STATE[i].x,
-          y: (i) => LINE_STATE[i].y,
-          rotation: (i) => LINE_STATE[i].rotation,
-          zIndex: (i) => LINE_STATE[i].zIndex,
-          scale: (i) => LINE_STATE[i].scale,
-          ease: "power3.inOut",
-          stagger: { each: 0.12, from: "center" },
-          duration: 1.2,
-        },
-        "unstack",
-      );
-
-      const flipOrigins = ["0% 50%", "50% 50%", "100% 50%"];
-      const flipOrder = [0, 1, 2];
-
-      flipOrder.forEach((cardIndex, step) => {
-        gsap.set(flipWrappers[cardIndex], {
-          transformOrigin: flipOrigins[cardIndex],
-        });
+        const tl = gsap.timeline();
 
         tl.to(
-          flipWrappers[cardIndex],
+          cards,
           {
-            rotateY: FLIP_DIRECTION[cardIndex],
-            ease: "power2.inOut",
-            duration: 0.9,
+            x: (i) => LAND_STACKED[i].x,
+            y: (i) => LAND_STACKED[i].y,
+            rotation: (i) => LAND_STACKED[i].rotation,
+            zIndex: (i) => LAND_STACKED[i].zIndex,
+            opacity: 1,
+            scale: (i) => LAND_STACKED[i].scale,
+            ease: "power2.out",
+            stagger: { each: 0.15, from: "center" },
+            duration: 2.2,
           },
-          `unstack+=${step * 0.35}`,
+          0,
         );
+
+        const dynamicLineState = isSmall
+          ? [
+              { x: 250, y: -400, rotation: 0, zIndex: 1, scale: 1.5 },
+              { x: 0, y: 0, rotation: 0, zIndex: 3, scale: 1.5 },
+              { x: -250, y: 400, rotation: 0, zIndex: 2, scale: 1.5 },
+            ]
+          : [
+              { x: -100, y: 0, rotation: 0, zIndex: 1, scale: 2.0 },
+              { x: 0, y: 0, rotation: 0, zIndex: 3, scale: 2.0 },
+              { x: 100, y: 0, rotation: 0, zIndex: 2, scale: 2.0 },
+            ];
+
+        tl.to(
+          cards,
+          {
+            x: (i) => dynamicLineState[i].x,
+            y: (i) => dynamicLineState[i].y,
+            rotation: (i) => dynamicLineState[i].rotation,
+            zIndex: (i) => dynamicLineState[i].zIndex,
+            scale: (i) => dynamicLineState[i].scale,
+            ease: "power3.inOut",
+            stagger: { each: 0.12, from: "center" },
+            duration: 1.2,
+          },
+          "unstack",
+        );
+
+        const flipOrigins = ["0% 50%", "50% 50%", "100% 50%"];
+        const flipOrder = [0, 1, 2];
+
+        flipOrder.forEach((cardIndex, step) => {
+          gsap.set(flipWrappers[cardIndex], {
+            transformOrigin: flipOrigins[cardIndex],
+          });
+
+          tl.to(
+            flipWrappers[cardIndex],
+            {
+              rotateY: FLIP_DIRECTION[cardIndex],
+              ease: "power2.inOut",
+              duration: 0.9,
+            },
+            `unstack+=${step * 0.35}`,
+          );
+        });
+
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: isSmall ? "top 10%" : "top 50%",
+          end: "+=200",
+          scrub: 1.5,
+          pin: true,
+          pinSpacing: false,
+          pinType: "transform",
+          anticipatePin: 1,
+          animation: tl,
+        });
+      };
+
+      mm.add("(max-width: 1023px)", () => {
+        buildTimeline(true);
       });
 
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top 50%",
-        end: "+=200",
-        scrub: 1.5,
-        pin: true,
-        pinSpacing: false,
-        pinType: "transform",
-        anticipatePin: 1,
-        animation: tl,
+      mm.add("(min-width: 1024px)", () => {
+        buildTimeline(false);
       });
+
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center ">
-      <h2 className="text-6xl font-mono text-center translate-y-40">Skills</h2>
+    <div className="flex flex-col items-center justify-center overflow-hidden">
+      <h2 className="text-4xl md:text-6xl font-mono text-center translate-y-20 md:translate-y-40 z-10">Skills</h2>
       <section
         ref={sectionRef}
-        className="relative w-full min-h-screen flex items-center justify-center bg-[#e7e7e7]"
+        className="relative w-full max-lg:min-h-[1400px] lg:min-h-[900px] flex items-center justify-center bg-[#e7e7e7]"
       >
         <div className="relative flex items-center justify-center w-full h-full overflow-hidden">
           {Cards.map((card, index) => (

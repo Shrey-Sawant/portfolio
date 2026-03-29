@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 
 const FlipText = ({ text, href }) => {
   return (
@@ -54,9 +54,15 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`${scrolled ? "bg-[#e7e7e7] bg-opacity-100" : "bg-opacity-0"} w-full px-6 py-6 flex justify-between items-center z-50 sticky top-0`}
+      className={`${
+        isOpen
+          ? "bg-[#e7e7e7]"
+          : scrolled
+          ? "bg-[#e7e7e7]/90 backdrop-blur-md shadow-sm"
+          : "bg-transparent"
+      } w-full px-6 py-4 md:py-6 flex justify-between items-center z-50 fixed top-0 left-0 transition-all duration-500`}
     >
-      <img src={logo} alt="logo" className="size-16 bg-[#e7e7e7]" />
+      <img src={logo} alt="logo" className="size-16" />
 
       <div className="relative flex items-center justify-end w-1/2">
         <div

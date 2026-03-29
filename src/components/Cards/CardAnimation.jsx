@@ -1,6 +1,6 @@
-import checker from "../assets/checker.png";
-import arrow from "../assets/arrow.png";
-import square from "../assets/square.png";
+import checker from "../../assets/checker.png";
+import arrow from "../../assets/arrow.png";
+import square from "../../assets/square.png";
 import { useEffect, useRef, forwardRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
@@ -89,8 +89,19 @@ const CardAnimation = () => {
     if (!cards.length) return;
 
     const ctx = gsap.context(() => {
+      const isSmall = window.innerWidth < 1024;
+      const dynamicLineState = isSmall ? [
+        { x: 0, y: -200, rotation: 0, zIndex: 1 },
+        { x: 0, y: 0,   rotation: 0, zIndex: 3 },
+        { x: 0, y: 200, rotation: 0, zIndex: 2 },
+      ] : [
+        { x: -200, y: 0, rotation: 0, zIndex: 1 },
+        { x: 0,    y: 0, rotation: 0, zIndex: 3 },
+        { x: 200,  y: 0, rotation: 0, zIndex: 2 },
+      ];
+
       cards.forEach((card, i) => {
-        gsap.set(card, { ...LINE_STATE[i], opacity: 1 });
+        gsap.set(card, { ...dynamicLineState[i], opacity: 1 });
       });
 
       const tl = gsap.timeline();

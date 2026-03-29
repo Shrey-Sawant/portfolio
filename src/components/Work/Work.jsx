@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import projects from "../constants/Projectsdata";
+import projects from "../../constants/Projectsdata";
 
 gsap.registerPlugin(ScrollTrigger);
 

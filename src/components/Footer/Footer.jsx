@@ -240,7 +240,7 @@ export default function Footer() {
                 <span className="text-[17px] tracking-[0.18em] uppercase text-[#1a1a1a]/45 font-mono">
                   Based in
                 </span>
-                <span className="font-sans text-[3rem] font-light text-[#1a1a1a] tracking-[-0.03em] leading-[1.1]">
+                <span className="font-sans text-4xl md:text-[3rem] font-light text-[#1a1a1a] tracking-[-0.03em] leading-[1.1]">
                   Mumbai
                   <br />
                   India
@@ -272,7 +272,7 @@ export default function Footer() {
                 <span className="text-[17px] tracking-[0.18em] uppercase text-[#1a1a1a]/45 font-mono">
                   Focus
                 </span>
-                <span className="font-sans text-[2rem] font-light text-[#1a1a1a] tracking-[-0.01em] leading-[1.2]">
+                <span className="font-sans text-3xl md:text-[2rem] font-light text-[#1a1a1a] tracking-[-0.01em] leading-[1.2]">
                   Scalable 
                   <br />
                   Solutions
@@ -389,10 +389,10 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mx-16 h-px bg-[#1a1a1a]/[0.08]" />
+      <div className="mx-6 md:mx-16 h-px bg-[#1a1a1a]/[0.08]" />
 
-      <div ref={bottomRef} className="px-16 pt-12 pb-8">
-        <div className="flex flex-wrap justify-between gap-2">
+      <div ref={bottomRef} className="px-6 md:px-16 pt-12 pb-8">
+        <div className="flex flex-col md:flex-row justify-between gap-4 md:gap-2 text-center md:text-left">
           <p className="text-[14px] text-[#1a1a1a]/40 tracking-[0.1em]">
             © 2025 Shrey Sawant — Crafted with intent.
           </p>

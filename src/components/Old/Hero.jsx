@@ -1,4 +1,4 @@
-import { HERO_CONTENT } from "../constants/index.js";
+import { HERO_CONTENT } from "../../constants/index.js";
 import { delay, motion } from "motion/react";
 import profile from "../assets/profile.png";
 
